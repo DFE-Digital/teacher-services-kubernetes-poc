@@ -1,6 +1,9 @@
 name: Validate Terraform
 
 inputs:
+  github_token:
+    description: The GitHub access token
+    required: true
   terraform_root_folder:
     description: The folder that contains the terraform to be validated
     required: true
@@ -37,3 +40,10 @@ runs:
       terraform validate -no-color
     shell: bash
     working-directory: ${{ inputs.terraform_root_folder }}
+
+  - name: Lint
+    uses: reviewdog/action-tflint@v1.17
+    with:
+      github_token: ${{ inputs.github_token }}
+      tflint_rulesets: azurerm
+      working_directory: ${{ inputs.terraform_root_folder }}

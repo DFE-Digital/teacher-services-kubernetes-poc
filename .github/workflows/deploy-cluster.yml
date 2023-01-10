@@ -24,4 +24,5 @@ jobs:
 
     - uses: ./.github/actions/validate-terraform
       with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         terraform_root_folder: cluster/terraform
