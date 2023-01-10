@@ -12,8 +12,7 @@ runs:
   using: composite
 
   steps:
-  - name: Get variables from config files
-    run: |
+  - run: |
       TERRAFORM_VERSION=$(awk '/{/{f=/^terraform/;next}f' terraform.tf | grep -o [0-9\.]*)
 
       if [ -z "$TERRAFORM_VERSION" ]; then
@@ -29,20 +28,17 @@ runs:
     with:
       terraform_version: ${{ env.terraform_version }}
 
-  - name: Check formatting
-    run: terraform fmt -check -diff
+  - run: terraform fmt -check -diff
     shell: bash
     working-directory: ${{ inputs.terraform_root_folder }}
 
-  - name: Validate
-    run: |
+  - run: |
       terraform init -backend=false
       terraform validate -no-color
     shell: bash
     working-directory: ${{ inputs.terraform_root_folder }}
 
-  - name: Lint
-    uses: reviewdog/action-tflint@v1.17
+  - uses: reviewdog/action-tflint@v1.17
     with:
       github_token: ${{ inputs.github_token }}
       tflint_rulesets: azurerm
