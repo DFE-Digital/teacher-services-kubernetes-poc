@@ -1,0 +1,9 @@
+name: Validate Terraform
+
+runs:
+  using: composite
+
+  steps:
+  - uses: hashicorp/setup-terraform@v2
+    with:
+      terraform_version: 1.0.10
